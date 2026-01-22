@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      width: 450px;
+      min-height: 150px;
+      max-height: 600px;
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      background: #1a1a2e;
+      color: #eee;
+    }
+    
+    h1 {
+      margin: 0 0 14px 0;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    h1::before {
+      content: "📥";
+    }
+    
+    .status {
+      padding: 12px;
+      background: #16213e;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      text-align: center;
+      color: #888;
+    }
+    
+    .status.found {
+      color: #4ade80;
+    }
+    
+    .status.error {
+      color: #f87171;
+    }
+    
+    .settings {
+      padding: 12px;
+      background: #16213e;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    
+    .settings-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    
+    .settings-row:last-child {
+      margin-bottom: 0;
+    }
+    
+    .settings label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #aaa;
+    }
+    
+    .settings input[type="number"] {
+      width: 60px;
+      padding: 6px 8px;
+      border: 1px solid #374151;
+      border-radius: 6px;
+      background: #1a1a2e;
+      color: #eee;
+      font-size: 14px;
+      text-align: center;
+    }
+    
+    .settings input[type="text"] {
+      flex: 1;
+      padding: 8px 10px;
+      border: 1px solid #374151;
+      border-radius: 6px;
+      background: #1a1a2e;
+      color: #eee;
+      font-size: 13px;
+    }
+    
+    .settings input:focus {
+      outline: none;
+      border-color: #4ade80;
+    }
+    
+    .ext-presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    
+    .ext-preset {
+      padding: 4px 10px;
+      background: #374151;
+      border: none;
+      border-radius: 4px;
+      color: #ccc;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .ext-preset:hover {
+      background: #4b5563;
+    }
+    
+    .ext-preset.active {
+      background: #4ade80;
+      color: #1a1a2e;
+    }
+    
+    .settings-hint {
+      font-size: 11px;
+      color: #666;
+      margin-top: 6px;
+    }
+    
+    .default-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      padding-top: 10px;
+      border-top: 1px solid #2a2a4e;
+    }
+    
+    .default-toggle label {
+      font-size: 12px;
+      color: #888;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .default-toggle input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+    }
+    
+    .scan-btn {
+      padding: 8px 16px;
+      background: #60a5fa;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-left: auto;
+    }
+    
+    .scan-btn:hover {
+      background: #3b82f6;
+    }
+    
+    .scan-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .progress-bar {
+      display: none;
+      margin-bottom: 12px;
+    }
+    
+    .progress-bar.active {
+      display: block;
+    }
+    
+    .progress-track {
+      height: 6px;
+      background: #16213e;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: #4ade80;
+      width: 0%;
+      transition: width 0.3s;
+    }
+    
+    .progress-text {
+      font-size: 12px;
+      color: #888;
+      margin-top: 6px;
+      text-align: center;
+    }
+    
+    .file-list {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+    }
+    
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #16213e;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .file-item:hover {
+      background: #1f2b4a;
+    }
+    
+    .file-item.downloading {
+      border-left: 3px solid #facc15;
+    }
+    
+    .file-item.completed {
+      border-left: 3px solid #4ade80;
+    }
+    
+    .file-item input[type="checkbox"] {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+    
+    .file-info {
+      flex: 1;
+      overflow: hidden;
+    }
+    
+    .file-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+    
+    .file-ext {
+      font-size: 11px;
+      color: #888;
+      margin-top: 2px;
+    }
+    
+    .file-status {
+      font-size: 11px;
+      color: #888;
+      flex-shrink: 0;
+    }
+    
+    .file-status.downloading {
+      color: #facc15;
+    }
+    
+    .file-status.completed {
+      color: #4ade80;
+    }
+    
+    .file-item .download-single {
+      opacity: 0;
+      background: none;
+      border: none;
+      color: #4ade80;
+      cursor: pointer;
+      font-size: 18px;
+      padding: 0 4px;
+      transition: opacity 0.2s;
+    }
+    
+    .file-item:hover .download-single {
+      opacity: 1;
+    }
+    
+    .buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .btn-primary {
+      background: #4ade80;
+      color: #1a1a2e;
+    }
+    
+    .btn-primary:hover:not(:disabled) {
+      background: #22c55e;
+    }
+    
+    .btn-secondary {
+      background: #374151;
+      color: #eee;
+    }
+    
+    .btn-secondary:hover:not(:disabled) {
+      background: #4b5563;
+    }
+    
+    .select-controls {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+    
+    .select-controls a {
+      color: #60a5fa;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    
+    .select-controls a:hover {
+      text-decoration: underline;
+    }
+    
+    #results {
+      display: none;
+    }
+    
+    #results.visible {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Media Downloader</h1>
+  
+  <div class="settings">
+    <div class="settings-row">
+      <label>
+        Расширения:
+        <input type="text" id="extensions" placeholder="mp3, mp4, pdf...">
+      </label>
+      <button class="scan-btn" id="scanBtn">Сканировать</button>
+    </div>
+    
+    <div class="ext-presets">
+      <button class="ext-preset" data-ext="mp3">MP3</button>
+      <button class="ext-preset" data-ext="mp4">MP4</button>
+      <button class="ext-preset" data-ext="pdf">PDF</button>
+      <button class="ext-preset" data-ext="zip,rar,7z">Архивы</button>
+      <button class="ext-preset" data-ext="jpg,jpeg,png,gif,webp">Картинки</button>
+      <button class="ext-preset" data-ext="doc,docx,xls,xlsx">Документы</button>
+    </div>
+    
+    <div class="settings-hint">Введите расширения через запятую или выберите пресет</div>
+    
+    <div class="default-toggle">
+      <label>
+        <input type="checkbox" id="saveAsDefault">
+        Сохранить как формат по умолчанию
+      </label>
+    </div>
+    
+    <div class="settings-row" style="margin-top: 10px;">
+      <label>
+        Параллельных загрузок:
+        <input type="number" id="maxConcurrent" min="1" max="10" value="3">
+      </label>
+    </div>
+  </div>
+  
+  <div id="status" class="status">Введите расширения и нажмите «Сканировать»</div>
+  
+  <div id="results">
+    <div id="progressBar" class="progress-bar">
+      <div class="progress-track">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+      <div id="progressText" class="progress-text">0 / 0</div>
+    </div>
+    
+    <div class="select-controls">
+      <a id="selectAll">Выбрать все</a>
+      <a id="selectNone">Снять все</a>
+    </div>
+    
+    <div id="fileList" class="file-list"></div>
+    
+    <div class="buttons">
+      <button id="downloadSelected" class="btn-primary">Скачать выбранные</button>
+      <button id="downloadAll" class="btn-secondary">Скачать все</button>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

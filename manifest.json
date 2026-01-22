@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Files Downloader",
+  "version": "1.1",
+  "description": "Downloading various types of files from web pages (MP3, MP4, PDF etc)",
+  "permissions": [
+    "activeTab",
+    "downloads",
+    "scripting",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icon.png"
+    }
+  },
+  "icons": {
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}
