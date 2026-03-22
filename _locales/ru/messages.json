@@ -1,0 +1,26 @@
+{
+  "extName":              { "message": "Files Downloader" },
+  "extDescription":       { "message": "Скачивайте файлы с любых сайтов пачками: MP3, MP4, PDF и другие. Очередь работает в фоне даже после закрытия popup." },
+
+  "labelExtensions":      { "message": "Расширения:" },
+  "btnScan":              { "message": "Сканировать" },
+  "presetArchives":       { "message": "Архивы" },
+  "presetImages":         { "message": "Картинки" },
+  "presetDocuments":      { "message": "Документы" },
+  "hintExtensions":       { "message": "Введите расширения через запятую или выберите пресет" },
+  "labelSaveDefault":     { "message": "Сохранить как формат по умолчанию" },
+  "labelParallel":        { "message": "Параллельных загрузок:" },
+  "statusDefault":        { "message": "Введите расширения и нажмите «Сканировать»" },
+  "selectAll":            { "message": "Выбрать все" },
+  "selectNone":           { "message": "Снять все" },
+  "btnDownloadSelected":  { "message": "Скачать выбранные" },
+  "btnDownloadAll":       { "message": "Скачать все" },
+
+  "errNoExtension":       { "message": "Введите хотя бы одно расширение" },
+  "statusScanning":       { "message": "Сканирование..." },
+  "statusNotFound":       { "message": "Файлы не найдены ($1)", "placeholders": { "1": { "content": "$1" } } },
+  "statusFound":          { "message": "Найдено: $1 файл(ов)", "placeholders": { "1": { "content": "$1" } } },
+  "statusError":          { "message": "Ошибка: $1", "placeholders": { "1": { "content": "$1" } } },
+  "fileStatusDownloading":{ "message": "загрузка..." },
+  "statusCompleted":      { "message": "Завершено: $1 / $2", "placeholders": { "1": { "content": "$1" }, "2": { "content": "$2" } } }
+}

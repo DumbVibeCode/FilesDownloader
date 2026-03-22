@@ -1,0 +1,26 @@
+{
+  "extName":              { "message": "Files Downloader" },
+  "extDescription":       { "message": "Batch download files from any web page by extension: MP3, MP4, PDF and more. Queue runs in background even when popup is closed." },
+
+  "labelExtensions":      { "message": "Extensions:" },
+  "btnScan":              { "message": "Scan" },
+  "presetArchives":       { "message": "Archives" },
+  "presetImages":         { "message": "Images" },
+  "presetDocuments":      { "message": "Documents" },
+  "hintExtensions":       { "message": "Enter extensions separated by comma or choose a preset" },
+  "labelSaveDefault":     { "message": "Save as default" },
+  "labelParallel":        { "message": "Parallel downloads:" },
+  "statusDefault":        { "message": "Enter extensions and click \"Scan\"" },
+  "selectAll":            { "message": "Select all" },
+  "selectNone":           { "message": "Deselect all" },
+  "btnDownloadSelected":  { "message": "Download selected" },
+  "btnDownloadAll":       { "message": "Download all" },
+
+  "errNoExtension":       { "message": "Enter at least one extension" },
+  "statusScanning":       { "message": "Scanning..." },
+  "statusNotFound":       { "message": "No files found ($1)", "placeholders": { "1": { "content": "$1" } } },
+  "statusFound":          { "message": "Found: $1 file(s)", "placeholders": { "1": { "content": "$1" } } },
+  "statusError":          { "message": "Error: $1", "placeholders": { "1": { "content": "$1" } } },
+  "fileStatusDownloading":{ "message": "downloading..." },
+  "statusCompleted":      { "message": "Completed: $1 / $2", "placeholders": { "1": { "content": "$1" }, "2": { "content": "$2" } } }
+}

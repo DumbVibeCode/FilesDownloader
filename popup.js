@@ -3,7 +3,18 @@ let foundFiles = [];
 const DEFAULT_MAX_CONCURRENT = 3;
 const DEFAULT_EXTENSIONS = 'mp3';
 
+function i18n(key, ...subs) {
+  return chrome.i18n.getMessage(key, subs) || key;
+}
+
+function applyI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = i18n(el.dataset.i18n);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
+  applyI18n();
   const extensionsInput = document.getElementById('extensions');
   const maxConcurrentInput = document.getElementById('maxConcurrent');
   const saveAsDefaultCheckbox = document.getElementById('saveAsDefault');
@@ -43,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   scanBtn.addEventListener('click', async () => {
     const extensions = parseExtensions(extensionsInput.value);
     if (extensions.length === 0) {
-      statusEl.textContent = 'Введите хотя бы одно расширение';
+      statusEl.textContent = i18n('errNoExtension');
       statusEl.className = 'status error';
       return;
     }
@@ -92,7 +103,7 @@ function handleBackgroundMessage(message) {
   if (message.type === 'FILE_DOWNLOADING') {
     const statusEl = document.getElementById(`status-${message.fileIndex}`);
     const itemEl = document.getElementById(`file-item-${message.fileIndex}`);
-    if (statusEl) { statusEl.textContent = 'загрузка...'; statusEl.className = 'file-status downloading'; }
+    if (statusEl) { statusEl.textContent = i18n('fileStatusDownloading'); statusEl.className = 'file-status downloading'; }
     if (itemEl) { itemEl.classList.add('downloading'); itemEl.classList.remove('completed'); }
 
   } else if (message.type === 'FILE_COMPLETE') {
@@ -135,7 +146,7 @@ async function scanPage(extensions) {
   const resultsEl = document.getElementById('results');
   const fileListEl = document.getElementById('fileList');
 
-  statusEl.textContent = 'Сканирование...';
+  statusEl.textContent = i18n('statusScanning');
   statusEl.className = 'status';
   resultsEl.classList.remove('visible');
 
@@ -151,18 +162,18 @@ async function scanPage(extensions) {
 
     if (foundFiles.length === 0) {
       const extList = extensions.join(', ').toUpperCase();
-      statusEl.textContent = `Файлы не найдены (${extList})`;
+      statusEl.textContent = i18n('statusNotFound', extList);
       statusEl.className = 'status error';
       return;
     }
 
-    statusEl.textContent = `Найдено: ${foundFiles.length} файл(ов)`;
+    statusEl.textContent = i18n('statusFound', String(foundFiles.length));
     statusEl.className = 'status found';
     resultsEl.classList.add('visible');
     renderFileList(fileListEl);
 
   } catch (error) {
-    statusEl.textContent = 'Ошибка: ' + error.message;
+    statusEl.textContent = i18n('statusError', error.message);
     statusEl.className = 'status error';
   }
 }
@@ -277,5 +288,5 @@ function finishDownload(completed, total) {
   document.getElementById('downloadSelected').disabled = false;
   document.getElementById('downloadAll').disabled = false;
   document.getElementById('scanBtn').disabled = false;
-  document.getElementById('progressText').textContent = `Завершено: ${completed} / ${total}`;
+  document.getElementById('progressText').textContent = i18n('statusCompleted', String(completed), String(total));
 }
