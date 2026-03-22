@@ -203,7 +203,8 @@ function findFiles(extensions) {
   document.querySelectorAll('[onclick], [onmousedown]').forEach(el => {
     [el.getAttribute('onclick'), el.getAttribute('onmousedown')].forEach(handler => {
       if (!handler) return;
-      const urlMatches = handler.match(/['"]([^'"]+\.(mp3|mp4|pdf|wav|ogg|flac|aac)(\?[^'"]*)?)['"]/gi);
+      const extList = extensions.join('|');
+      const urlMatches = handler.match(new RegExp(`['"]([^'"]+\\.(${extList})(\\?[^'"]*)?)['"'`, 'gi'));
       if (urlMatches) urlMatches.forEach(match => addFile(match.slice(1, -1)));
     });
   });
