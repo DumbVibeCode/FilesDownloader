@@ -215,7 +215,7 @@ function findFiles(extensions) {
     [el.getAttribute('onclick'), el.getAttribute('onmousedown')].forEach(handler => {
       if (!handler) return;
       const extList = extensions.join('|');
-      const urlMatches = handler.match(new RegExp(`['"]([^'"]+\\.(${extList})(\\?[^'"]*)?)['"'`, 'gi'));
+      const urlMatches = handler.match(new RegExp(`['"]([^'"]+\\.(${extList})(\\?[^'"]*)?)['"]`, 'gi'));
       if (urlMatches) urlMatches.forEach(match => addFile(match.slice(1, -1)));
     });
   });
