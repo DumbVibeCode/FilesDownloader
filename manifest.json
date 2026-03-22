@@ -3,7 +3,7 @@
   "name": "Files Downloader",
   "short_name": "Files DL",
   "version": "1.3",
-  "description": "Scan any web page and batch download files by extension: MP3, MP4, PDF, and more. Supports parallel downloads and continues even when the popup is closed.",
+  "description": "Batch download files from any web page by extension: MP3, MP4, PDF and more. Queue runs in background even when popup is closed.",
   "homepage_url": "https://github.com/DumbVibeCode/FilesDownloader",
   "background": {
     "service_worker": "background.js"
